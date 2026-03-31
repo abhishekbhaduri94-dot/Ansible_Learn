@@ -1,0 +1,28 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Update repository index
+    apt:
+      update_cache: yes
+
+  - name: install apache2 package
+    apt:
+      name: apache2
+      state: latest  
+
+  - name: Add php support for apache
+    apt:
+      name: libapache2-mod-php
+      state: latest
+  
+  - name: Copy html file
+    tags: apache,httpd,apache2
+    copy:
+      src: files/default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644     
